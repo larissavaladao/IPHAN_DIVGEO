@@ -131,14 +131,22 @@ def run_area_calculator():
         out_feat.setAttribute("area_min", area_min)
 
         writer.addFeature(out_feat)
-        del writer # Fecha e salva o arquivo
+        del writer # Fecha e salva o arquivo fisicamente
         
-        print(f"  -> Arquivo {out_name}.shp salvo em {out_dir}\n")
+        print(f"  -> Arquivo {out_name}.shp salvo em {out_dir}")
+
+        # --- D. Adicionar o novo shapefile ao projeto ---
+        new_layer = QgsVectorLayer(out_path, out_name, "ogr")
+        if new_layer.isValid():
+            QgsProject.instance().addMapLayer(new_layer)
+            print(f"  -> Camada '{out_name}' adicionada ao projeto com sucesso.\n")
+        else:
+            print(f"  -> Erro ao tentar carregar a camada '{out_name}' no projeto.\n")
 
     print("=== Processamento concluído! ===")
     
     # Exibe uma mensagem de sucesso na tela do usuário
-    QMessageBox.information(None, "Sucesso", "Cálculo de áreas finalizado com sucesso!")
+    QMessageBox.information(None, "Sucesso", "Cálculo de áreas finalizado e camadas adicionadas ao projeto!")
 
 # Executa a função
 run_area_calculator()
