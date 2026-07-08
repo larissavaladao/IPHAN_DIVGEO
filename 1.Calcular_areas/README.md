@@ -1,4 +1,5 @@
 # Pasta com duas opções de código para cálculo de área de todos os arquivos de um diretório
+**Importante:** os arquivos devem necessariamente conter apenas polygonos e/ou multipolígonos
 ## Calculadora de Áreas e Limiares no QGIS (PyQGIS)
 
 Este repositório contém um script em Python (PyQGIS) desenvolvido para rodar nativamente dentro do QGIS. Ele automatiza o cálculo de áreas de polígonos em lote, eliminando a necessidade de dependências externas como `geopandas` ou instalações via terminal.
