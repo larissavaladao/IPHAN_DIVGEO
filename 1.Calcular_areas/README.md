@@ -51,11 +51,14 @@ Para cada arquivo processado, um novo arquivo `.shp` será gerado na pasta de de
 
 Este diretório contém um Jupyter Notebook (`calculo_de_areas.ipynb`) desenvolvido para automatizar o processamento e o cálculo de áreas de arquivos geoespaciais. O script utiliza a biblioteca `geopandas` juntamente com `fiona` e `shapely` para ler dados complexos, corrigir e manipular geometrias, e gerar novos arquivos com métricas de área atualizadas.
 
+Recebe kml/kmz com múltiplas camadas. Também realiza conversão de linhas em polígonos, quando possível e permite a alteração dos nomes do arquivos para padroniza-los com os números dos processos, ao mesmo tempo que adiciona uma coluna "processo" compatível com a camada de destino do DBGEO.
+
 ---
 
 ### Principais Funcionalidades
 
 * **Processamento em Lote:** O script utiliza os módulos `glob` e `os` para varrer automaticamente um diretório em busca de arquivos compatíveis.
+* **Gerenciamento de arquivos:** Alteração dos nomes dos arquivos e adição de numero de processo na tabela de atributos da camada.
 * **Leitura Integral de KML/KMZ:** Através da função `ler_todas_camadas_kml`, o código contorna a limitação padrão do GeoPandas (que lê apenas a primeira camada) e extrai todas as camadas de arquivos iterando com a biblioteca `fiona`, garantindo que nenhuma feição seja perdida.
 * **Conversão de Linhas para Polígonos:** A função `poligonize_lines` identifica automaticamente geometrias lineares (`LineString`, `MultiLineString`) e tenta fechá-las em polígonos através de operações topológicas, permitindo o cálculo de área em arquivos originais que foram desenhados como linhas.
 * **Unificação de Geometrias:** A função `unify_geometries` mescla todos os polígonos de um arquivo em uma única geometria contínua (Multipolígono), preservando os atributos da primeira feição encontrada.
@@ -86,8 +89,9 @@ Você pode rodar este código em qualquer IDE compatível com notebooks `.ipynb`
 
 
 3. **Variáveis de Projeção:** Caso queira usar o padrão do código (Albers IBGE), mantenha a variável `projecao = None`. Se precisar de outro CRS, insira o código EPSG no lugar (ex: `'EPSG:31983'`).
-4. Execute as células sequencialmente para importar os pacotes e declarar as funções de trabalho (`area_calc`, `unify_geometries`, `poligonize_lines`, `ler_todas_camadas_kml` e `area_files_list`).
-5. **Execução Final:** Na última seção ("Aplicação das funções"), execute a célula `area_files_list(in_dir=in_dir, out_dir=out_dir, crs=projecao)` para iniciar o processamento em lote. O log no console informará o andamento arquivo por arquivo e confirmará a criação dos novos `.shp` na pasta de saída.
+4. **Inserção de dicionário de dados:** Caso deseje renomear/inserir o numero de processo nos arquivos altere a variável `dados` para que as chaves do dicionário sejam o nome de entrada dos arquivos assim como aparecem quando baixados e os valores sejam os numeros dos processos como consta no SEI.
+5. Execute as células sequencialmente para importar os pacotes e declarar as funções de trabalho (`area_calc`, `unify_geometries`, `extract_polygons`,`poligonize_lines`, `files_management`, `ler_todas_camadas_kml` e `area_files_list`).
+6. **Execução Final:** Na última seção ("Aplicação das funções"), execute a célula `area_files_list(in_dir=in_dir, out_dir=out_dir, crs=projecao, )` para iniciar o processamento em lote. O log no console informará o andamento arquivo por arquivo e confirmará a criação dos novos `.shp` na pasta de saída.
 
 ---
 
