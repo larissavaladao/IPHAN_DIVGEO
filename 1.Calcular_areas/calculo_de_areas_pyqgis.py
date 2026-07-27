@@ -37,6 +37,7 @@ def run_area_calculator():
     print(f"Total de arquivos encontrados: {len(list_files)}\n")
 
     if not list_files:
+        print("Nenhum arquivo compatível encontrado")
         return
 
     # 2. Configurações de Sistema de Coordenadas (CRS)
@@ -65,7 +66,7 @@ def run_area_calculator():
     # 3. Processamento de cada arquivo
     for file_path in list_files:
         filename = os.path.basename(file_path)
-        out_name = os.path.splitext(filename)[0]
+        out_name = os.path.splitext(filename)[0]+"_new"
         print(f"Processando: {filename}")
 
         # Carrega o arquivo no QGIS temporariamente
