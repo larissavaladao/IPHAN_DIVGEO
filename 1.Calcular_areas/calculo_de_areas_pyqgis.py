@@ -60,7 +60,7 @@ def run_area_calculator():
     
     crs_albers = QgsCoordinateReferenceSystem()
     crs_albers.createFromWkt(wkt_albers)
-    crs_out = QgsCoordinateReferenceSystem("EPSG:3857") # Projeção de saída
+    crs_out = QgsCoordinateReferenceSystem("EPSG:4674") # Projeção de saída
     context = QgsProject.instance().transformContext()
 
     # 3. Processamento de cada arquivo
@@ -101,8 +101,8 @@ def run_area_calculator():
         area_min = area_ha * (1 - perc)
         print(f"  -> Área: {area_ha:.2f} ha (Variação de {limiar}%)")
 
-        # --- C. Salvar Novo Shapefile (em EPSG:3857) ---
-        # Reprojeta a geometria original para EPSG:3857 para o arquivo final
+        # --- C. Salvar Novo Shapefile (em EPSG:4674) ---
+        # Reprojeta a geometria original para EPSG:4674 para o arquivo final
         geom_out = QgsGeometry(unified_geom)
         transform_out = QgsCoordinateTransform(layer.crs(), crs_out, context)
         geom_out.transform(transform_out)
