@@ -45,7 +45,7 @@ Para cada arquivo processado, um novo arquivo `.shp` será gerado na pasta de de
 * **area_max:** Limite superior da área (+10%).
 * **area_min:** Limite inferior da área (-10%).
 
-> **Nota:** O sistema de coordenadas (CRS) dos arquivos finais exportados será o `EPSG:3857` (Pseudo-Mercator), facilitando a integração com mapas base da web, como o Google Maps ou OpenStreetMap.
+> **Nota:** O sistema de coordenadas (CRS) dos arquivos finais exportados será o `EPSG:4674` (SIRGAS 2000).
 
 ## Cálculo de Áreas e Limiares em Lote (Jupyter Notebook)
 
@@ -105,3 +105,61 @@ A lógica central deste código é estruturada em torno de manipulações de `Ge
 4. **Unificação:** Caso a flag booleana de unificação esteja ativa (comportamento padrão), o código isola a primeira linha (`gdf[0:1].copy()`) para reter atributos, valida as geometrias (`make_valid()`) e sobrescreve sua coluna geométrica pela união massiva de todos os dados usando `union_all()`.
 5. **Cálculo e Reprojeção:** Durante o cálculo na função `area_calc`, o dado sofre o processo analítico de reprojeção (`to_crs()`), seguido pelo cálculo algébrico `gdf.area / 10000` para registrar o quantitativo em hectares, além da aplicação de matemática básica para calcular limites máximo e mínimo.
 6. **Exportação:** A tabela do `GeoDataFrame` é filtrada mantendo estritamente os campos `["area_ha", "area_max", "area_min", "geometry"]` e convertida para projeção Web Mercator (`EPSG:3857`), finalizando com o dump do arquivo no disco com a instrução de saída `.to_file()`.
+
+### **1. Funções Utilitárias** 
+- `download_kml_from_links()` ⭐ **NOVA** - Baixa KMLs dos links automaticamente
+- `files_management()` - Gerencia leitura e renomeação de arquivos
+
+### **2. Funções de Processamento Geoespacial**
+- `ler_todas_camadas_kml()` - Lê todas as camadas de KMLs
+- `extract_polygons()` - Remove GeometryCollections
+- `poligonize_lines()` - Converte linhas em polígonos
+- `unify_geometries()` - Unifica geometrias
+- `area_calc()` - Calcula áreas com limiares
+
+### **3. Pipeline Principal**
+- `area_files_list()` - Orquestra todo o fluxo (REFATORADO)
+
+---
+
+## 🚀 Como Usar
+
+### **Opção 1: Com Download Automático** (Recomendado)
+```python
+# Baixa KMLs dos links em df_dados, processa e salva em um passo
+area_files_list(
+    in_dir=in_dir,
+    out_dir=out_dir,
+    crs=projecao,
+    keep_name=True,
+    download_df=df_dados,          # ⭐ Ativa download automático
+    protocolo_col='Protocolo',      # Coluna com nome do arquivo
+    link_col='Link_Permanente'      # Coluna com links
+)
+```
+
+### **Opção 2: Sem Download** (Apenas Processamento)
+```python
+# Processa arquivos já presentes em in_dir
+area_files_list(
+    in_dir=in_dir,
+    out_dir=out_dir,
+    keep_name=True,
+    dados=None,
+    crs=projecao
+)
+```
+
+### **Opção 3: Com Renomeação via Dicionário**
+```python
+# Usa dicionário para renomear arquivos
+area_files_list(
+    in_dir=in_dir,
+    out_dir=out_dir,
+    keep_name=False,
+    dados={
+        "dados_teste": '01512.000478/2023-27_',
+    },
+    crs=projecao
+)
+```
