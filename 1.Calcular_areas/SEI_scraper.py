@@ -27,13 +27,13 @@ def main():
     print("=" * 70 + "\n")
     
     # Criar DataFrame de teste com um processo
-    # df_teste = pd.read_csv(glob.glob(r"C:\Users\larissa.valadao\OneDrive - IPHAN - Instituto do Patrimônio Histórico e Artístico Nacional\Documentos\arquivos_analise\lista_processos\*.csv")[0],sep=";")
+    df_teste = pd.read_csv(glob.glob(r"C:\Users\larissa.valadao\OneDrive - IPHAN - Instituto do Patrimônio Histórico e Artístico Nacional\Documentos\arquivos_analise\lista_processos\*.csv")[0],sep=";")
 
-    df_teste = pd.DataFrame({
-        'Protocolo': ['01450.010421/2026-51'],
-        'ID': [123456],
-        'Link_Permanente': ['https://sei.iphan.gov.br/sei/controlador.php?acao=procedimento_trabalhar&acao_origem=procedimento_visualizar&id_procedure=123456&infra_sistema=100000100&infra_unidade_atual=110000378&infra_hash=f3e1234567890abc']
-    })
+    # df_teste = pd.DataFrame({
+    #     'Protocolo': ['01450.010421/2026-51'],
+    #     'ID': [123456],
+    #     'Link_Permanente': ['https://sei.iphan.gov.br/sei/controlador.php?acao=procedimento_trabalhar&acao_origem=procedimento_visualizar&id_procedure=123456&infra_sistema=100000100&infra_unidade_atual=110000378&infra_hash=f3e1234567890abc']
+    # })
     
     print("TESTE 1: Validação de DataFrame")
     print("-" * 70)

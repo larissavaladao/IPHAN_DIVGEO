@@ -4,7 +4,7 @@
 
 Este repositório contém um script em Python (PyQGIS) desenvolvido para rodar nativamente dentro do QGIS. Ele automatiza o cálculo de áreas de polígonos em lote, eliminando a necessidade de dependências externas como `geopandas` ou instalações via terminal.
 
-O script unifica os polígonos de cada arquivo, calcula a área exata em hectares utilizando a projeção cônica equivalente de Albers (IBGE SIRGAS 2000), gera colunas com limiares de tolerância de 10% (máximo e mínimo) e exporta o resultado em novos arquivos Shapefile (EPSG:3857).
+O script unifica os polígonos de cada arquivo, calcula a área exata em hectares utilizando a projeção cônica equivalente de Albers (IBGE SIRGAS 2000), gera colunas com limiares de tolerância de 10% (máximo e mínimo) e permite selecionar o CRS dos arquivos Shapefile de saída: Albers IBGE SIRGAS 2000 (Equal Area) ou SIRGAS 2000 geográfico (EPSG:4674).
 
 ---
 
@@ -33,7 +33,8 @@ Importante: por hora os arquivos incluídos por meio de PyQGIS devem necessariam
 5. Clique no botão **Executar Script** (ícone de "Play" verde) no topo do editor.
 6. Uma janela do seu sistema operacional será aberta. Selecione a **pasta de entrada** onde estão os seus arquivos `.shp` ou `.kml`.
 7. Outra janela será aberta logo em seguida. Selecione a **pasta de saída** onde os novos arquivos gerados devem ser salvos.
-8. Aguarde a mensagem de confirmação na tela indicando que o processamento foi concluído com sucesso.
+8. Na janela **Sistema de Coordenadas de Saída**, selecione **Albers IBGE SIRGAS 2000 (Equal Area)** ou **SIRGAS 2000 geográfico (EPSG:4674)**.
+9. Aguarde a mensagem de confirmação na tela indicando que o processamento foi concluído com sucesso.
 
 ---
 
@@ -45,7 +46,7 @@ Para cada arquivo processado, um novo arquivo `.shp` será gerado na pasta de de
 * **area_max:** Limite superior da área (+10%).
 * **area_min:** Limite inferior da área (-10%).
 
-> **Nota:** O sistema de coordenadas (CRS) dos arquivos finais exportados será o `EPSG:4674` (SIRGAS 2000).
+> **Nota:** O CRS dos arquivos finais é definido na janela de seleção. A opção geográfica corresponde ao `EPSG:4674` (SIRGAS 2000); a outra opção é a projeção Albers IBGE SIRGAS 2000.
 
 ## Cálculo de Áreas e Limiares em Lote (Jupyter Notebook)
 

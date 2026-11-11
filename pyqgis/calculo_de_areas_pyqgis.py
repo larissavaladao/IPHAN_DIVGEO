@@ -11,7 +11,7 @@ from qgis.core import (
     QgsField,
     QgsVectorFileWriter
 )
-from qgis.PyQt.QtWidgets import QFileDialog, QMessageBox
+from qgis.PyQt.QtWidgets import QFileDialog, QInputDialog, QMessageBox
 from qgis.PyQt.QtCore import QVariant
 
 def run_area_calculator():
@@ -60,7 +60,25 @@ def run_area_calculator():
     
     crs_albers = QgsCoordinateReferenceSystem()
     crs_albers.createFromWkt(wkt_albers)
-    crs_out = QgsCoordinateReferenceSystem("EPSG:4674") # Projeção de saída
+
+    crs_dg = QgsCoordinateReferenceSystem("EPSG:4674")
+    crs_options = {
+        "Albers IBGE SIRGAS 2000 (Equal Area)": crs_albers,
+        "SIRGAS 2000 geográfico (EPSG:4674)": crs_dg,
+    }
+    crs_choice, accepted = QInputDialog.getItem(
+        None,
+        "Sistema de Coordenadas de Saída",
+        "Selecione o CRS para os arquivos de saída:",
+        list(crs_options),
+        0,
+        False,
+    )
+    if not accepted:
+        print("Operação cancelada pelo usuário (CRS de saída não selecionado).")
+        return
+
+    crs_out = crs_options[crs_choice]
     context = QgsProject.instance().transformContext()
 
     # 3. Processamento de cada arquivo
